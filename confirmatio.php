@@ -1,4 +1,3 @@
-
 <?php
     session_start();    
 ?>
@@ -15,7 +14,7 @@
             <h2>Contact Confirmation</h2>
             <p>
                 Thank you, <?php echo $_SESSION["fullName"]; ?> for
-                saving you contact information.
+                saving your contact information.
                 We look forward to working with you.
             </p>
             

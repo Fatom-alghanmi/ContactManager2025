@@ -1,4 +1,3 @@
-
 <?php
     require_once('database.php');
     // get the data from the form
@@ -32,7 +31,7 @@
                 <div id="data">
 
                     <input type="hidden" name="contact_id"
-                        value="<?php $contact['contactID']; ?>" />
+                        value="<?php echo $contact['contactID']; ?>" />
 
                     <label>First Name:</label>
                     <input type="text" name="first_name"

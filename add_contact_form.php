@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Contact Manager - Add Contact</title>
-        <link rel="stylesheet" type="txt/css" href="css/main.css" />
+        <link rel="stylesheet" type="text/css" href="css/main.css" />
     </head>
     <body>
         <?php include("header.php"); ?>
@@ -33,6 +33,9 @@
 
                     <label>Birth Date:</label>
                     <input type="date" name="dob" /><br />
+
+                    <label>Upload Image:</label>
+                    <input type="file" name="file1" /><br />
 
                 </div>
 

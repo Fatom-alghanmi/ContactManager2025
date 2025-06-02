@@ -10,6 +10,9 @@ $phone_number  = filter_input(INPUT_POST, 'phone_number');
 $status        = filter_input(INPUT_POST, 'status');
 $dob           = filter_input(INPUT_POST, 'dob');
 
+$file_name = $_FILES['file1']['name'];
+
+
 // Validation: Check for missing required fields
 if ($first_name === null || $last_name === null ||
     $email_address === null || $phone_number === null ||
@@ -65,5 +68,6 @@ $_SESSION["fullName"] = $first_name . " " . $last_name;
 
 // Redirect to confirmation page
 header("Location: update_confirmation.php");
+header("Location: " . $url);
 exit;
 ?>

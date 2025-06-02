@@ -1,5 +1,14 @@
 <?php
     session_start();
+
+    if (!isset($_SESSION["isLoggedIn"])) 
+     {
+        // User is not logged in, redirect to login page
+        $url = "login_form.php";
+        header("Location: " . $url);
+        die();
+    }
+
     require("database.php");
     $queryContacts = 'SELECT * FROM contacts';
     $statement1 = $db->prepare($queryContacts);
@@ -12,7 +21,7 @@
 <html>
     <head>
         <title>Contact Manager - Home</title>
-        <link rel="stylesheet" type="txt/css" href="css/main.css" />
+        <link rel="stylesheet" type="text/css" href="css/main.css" />
     </head>
     <body>
         <?php include("header.php"); ?>
@@ -28,9 +37,9 @@
                     <th>Phone Number</th>
                     <th>Status</th>
                     <th>Birth Date</th>
+                    <th>Photo</th>
                     <th>&nbsp;</th> <!-- for edit button -->
                     <th>&nbsp;</th> <!-- for delete button -->
-                  
                 </tr>
 
                 <?php foreach ($contacts as $contact): ?>
@@ -41,6 +50,7 @@
                         <td><?php echo $contact['phone']; ?></td>
                         <td><?php echo $contact['status']; ?></td>
                         <td><?php echo $contact['dob']; ?></td>
+                        <td><img src="<?php echo htmlspecialchars('./images/' . $contact['imageName']); ?>" alt="<?php echo htmlspecialchars('./images/' . $contact['imageName']); ?>"  /></td>
                         <td>
                             <form action="update_contact_form.php" method="post">
                                 <input type="hidden" name="contact_id"
@@ -60,6 +70,7 @@
 
             </table>
             <p><a href="add_contact_form.php">Add Contact</a></p>
+            <p><a href="logout.php">Logout</a></p>
         </main>
 
         <?php include("footer.php"); ?>

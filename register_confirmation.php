@@ -4,20 +4,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Contact Manager - Update Confirmation</title>
+        <title>Contact Manager - Registration Confirmation</title>
         <link rel="stylesheet" type="text/css" href="css/main.css" />
     </head>
     <body>
         <?php include("header.php"); ?>
 
         <main>
-            <h2>Contact Update Confirmation</h2>
+            <h2>Registration Confirmation</h2>
             <p>
-                Thank you, <?php echo $_SESSION["fullName"]; ?> for
-                updating your contact information.
-                We look forward to continuing to work with you.
+                Thank you, <?php echo $_SESSION["userName"]; ?> for
+                registering. 
             </p>
-            
+
+            <p>
+                You are logged in and my proceed to the contact list by clicking below.</p>
+                
             <p><a href="index.php">Back to Home</a></p>
         </main>
 

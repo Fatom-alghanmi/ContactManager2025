@@ -1,55 +1,56 @@
 <?php
     session_start();
 
-
     // get data from the form
-    $user_name = filter_input(INPUT_POST, 'user_name');
+    $user_name = filter_input(INPUT_POST, 'user_name');    
     $password = filter_input(INPUT_POST, 'password');
-   
-    $_SESSION["pass"] = $password; // Store password in session for later use
 
+    $_SESSION["pass"] = $password;  
     
-
     require_once('database.php');
 
-    $query = 'SELECT  password  FROM registrations
-                WHERE userName = :user_name';
+    $query = 'SELECT password FROM registrations
+                WHERE userName = :userName';
     $statement1 = $db->prepare($query);
-    $statement1->bindValue(':user_name', $user_name);
-   
+
+    $statement1->bindValue(':userName', $user_name);
+
     $statement1->execute();
-    $row = $statement1->fetch();
-   
+    $row = $statement1->fetch();    
 
     $statement1->closeCursor();
 
-   $hash = $row['password'];
+    $hash = $row['password'];
 
-   $_SESSION['isLoggedIn'] = password_verify($_SESSION["pass"], $hash);
+    $_SESSION["isLoggedIn"] = password_verify($_SESSION["pass"], $hash);
 
-    if ($_SESSION['isLoggedIn'] == True) 
+    if ($_SESSION["isLoggedIn"] == TRUE)
     {
-        $_SESSION["user_name"] = $user_name; // Store username in session
-        $_SESSION['password'] = $password; // Store password in session
-        $_SESSION['hash'] = $hash; // Store hash in session
+        $_SESSION["userName"] = $user_name;
+        $_SESSION["password"] = $password;
+        $_SESSION["hash"] = $hash;
 
-        $url = 'index.php';
+        $url = "index.php";
         header("Location: " . $url);
         die();
     }
-     elseif ($_SESSION['isLoggedIn'] == FALSE)  
-     {
-        $_SESSION = []; // clear all session data
-        session_destroy(); // clean up the session ID
+    elseif ($_SESSION["isLoggedIn"] == FALSE)
+    {
+        $_SESSION = [];
+        session_destroy();
 
         $url = "login_form.php";
-     } 
-     else 
-     {
-        $_SESSION = []; // clear all session data
-        session_destroy(); // clean up the session ID
+        header("Location: " . $url);
+        die();
+    }
+    else
+    {
+        $_SESSION = [];
+        session_destroy();
 
         $url = "login_form.php";
-     }
+        header("Location: " . $url);
+        die();
+    }    
 
 ?>

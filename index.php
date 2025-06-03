@@ -1,20 +1,22 @@
 <?php
     session_start();
 
-    if (!isset($_SESSION["isLoggedIn"])) 
-     {
-        // User is not logged in, redirect to login page
-        $url = "login_form.php";
-        header("Location: " . $url);
+    if (!isset($_SESSION["isLoggedIn"])) {
+        header("Location: login_form.php");
         die();
     }
 
     require("database.php");
-    $queryContacts = 'SELECT * FROM contacts';
+
+    // JOIN contacts with contactTypes to get the contactType name
+    $queryContacts = '
+        SELECT c.*, t.contactType
+        FROM contacts c
+        LEFT JOIN types t ON c.typeID = t.typeID
+    ';
     $statement1 = $db->prepare($queryContacts);
     $statement1->execute();
     $contacts = $statement1->fetchAll();
-
     $statement1->closeCursor();
 ?>
 <!DOCTYPE html>
@@ -37,34 +39,37 @@
                     <th>Phone Number</th>
                     <th>Status</th>
                     <th>Birth Date</th>
+                    <th>Contact Type</th>
                     <th>Photo</th>
-                    <th>&nbsp;</th> <!-- for edit button -->
-                    <th>&nbsp;</th> <!-- for delete button -->
+                    <th>&nbsp;</th> <!-- for update -->
+                    <th>&nbsp;</th> <!-- for delete -->
                 </tr>
 
                 <?php foreach ($contacts as $contact): ?>
                     <tr>
-                        <td><?php echo $contact['firstName']; ?></td>
-                        <td><?php echo $contact['lastName']; ?></td>
-                        <td><?php echo $contact['emailAddress']; ?></td>
-                        <td><?php echo $contact['phone']; ?></td>
-                        <td><?php echo $contact['status']; ?></td>
-                        <td><?php echo $contact['dob']; ?></td>
-                        <td><img src="<?php echo htmlspecialchars('./images/' . $contact['imageName']); ?>" alt="<?php echo htmlspecialchars('./images/' . $contact['imageName']); ?>"  /></td>
+                        <td><?php echo htmlspecialchars($contact['firstName']); ?></td>
+                        <td><?php echo htmlspecialchars($contact['lastName']); ?></td>
+                        <td><?php echo htmlspecialchars($contact['emailAddress']); ?></td>
+                        <td><?php echo htmlspecialchars($contact['phone']); ?></td>
+                        <td><?php echo htmlspecialchars($contact['status']); ?></td>
+                        <td><?php echo htmlspecialchars($contact['dob']); ?></td>
+                        <td><?php echo htmlspecialchars($contact['contactType']); ?></td>
+                        <td>
+                            <img src="<?php echo htmlspecialchars('./images/' . $contact['imageName']); ?>" 
+                                 alt="<?php echo htmlspecialchars($contact['firstName'] . ' ' . $contact['lastName']); ?>" />
+                        </td>
                         <td>
                             <form action="update_contact_form.php" method="post">
-                                <input type="hidden" name="contact_id"
-                                    value="<?php echo $contact['contactID']; ?>" />
+                                <input type="hidden" name="contact_id" value="<?php echo $contact['contactID']; ?>" />
                                 <input type="submit" value="Update" />
                             </form>
-                        </td> <!-- for edit button -->
+                        </td>
                         <td>
                             <form action="delete_contact.php" method="post">
-                                <input type="hidden" name="contact_id"
-                                    value="<?php echo $contact['contactID']; ?>" />
+                                <input type="hidden" name="contact_id" value="<?php echo $contact['contactID']; ?>" />
                                 <input type="submit" value="Delete" />
                             </form>
-                        </td> <!-- for delete button -->
+                        </td>
                     </tr>
                 <?php endforeach; ?>
 

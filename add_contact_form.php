@@ -1,3 +1,11 @@
+<?php
+    require_once('database.php');
+    $queryTypes = 'SELECT * FROM types';
+    $statement = $db->prepare($queryTypes);
+    $statement->execute();
+    $types = $statement->fetchAll();
+    $statement->closeCursor();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,16 +42,23 @@
                     <label>Birth Date:</label>
                     <input type="date" name="dob" /><br />
 
+                    <label>Contact Type:</label>
+                    <select name="type_id">
+                        <?php foreach ($types as $type): ?>
+                            <option value="<?php echo $type['typeID']; ?>">
+                                <?php echo $type['contactType']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select><br />
+
                     <label>Upload Image:</label>
                     <input type="file" name="file1" /><br />
 
                 </div>
 
                 <div id="buttons">
-
                     <label>&nbsp;</label>
                     <input type="submit" value="Save Contact" /><br />
-
                 </div>
 
             </form>

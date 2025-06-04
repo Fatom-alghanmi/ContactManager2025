@@ -6,12 +6,6 @@
     $password = filter_input(INPUT_POST, 'password');
 
     $_SESSION["pass"] = $password;  
-
-    if (empty($user_name) || empty($password)) {
-        $_SESSION["add_error"] = "Please fill in both username and password.";
-        header("Location: error.php");
-        exit();  // stop further processing// required filed empty
-    }
     
     require_once('database.php');
 
@@ -36,7 +30,7 @@
         $_SESSION["password"] = $password;
         $_SESSION["hash"] = $hash;
 
-        $url = "index.php";
+        $url = "login_confirmation.php";
         header("Location: " . $url);
         die();
     }

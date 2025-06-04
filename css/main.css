@@ -4,7 +4,7 @@ body {
 }
 main {
     display: block;
-    width: 1050px;
+    width: 1150px;
     margin: 0 auto;
     padding: 1em;
     background: #fff;
@@ -29,6 +29,19 @@ label {
     float: left;
     margin-bottom: .5em;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+  }
+   
+  th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center; 
+    vertical-align: middle;
+  }
 
 #data span {
     padding: .25em;
